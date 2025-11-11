@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.util.Scanner;
 
 /**
- * Display name: BankView — MVC View
+ * Display name: BankView - MVC View
  */
 public class BankView {
     private final BankFacade facade;
