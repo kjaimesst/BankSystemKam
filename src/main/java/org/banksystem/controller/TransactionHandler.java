@@ -1,17 +1,18 @@
 package org.banksystem.controller;
 
+import org.banksystem.model.Account;
 import java.math.BigDecimal;
-import org.banksystem.model.Customer;
 
 /**
- * Chain of Responsibility: base para validadores.
+ * Display name: TransactionHandler — Chain of Responsibility
+ * Clase base para manejar validaciones en cadena.
  */
 public abstract class TransactionHandler {
-    protected TransactionHandler next;
+    protected TransactionHandler nextHandler;
 
-    public void setNext(TransactionHandler next) {
-        this.next = next;
+    public void setNextHandler(TransactionHandler nextHandler) {
+        this.nextHandler = nextHandler;
     }
 
-    public abstract boolean handle(Customer customer, BigDecimal amount);
+    public abstract boolean handle(Account account, BigDecimal amount);
 }

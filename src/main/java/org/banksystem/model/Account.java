@@ -45,7 +45,7 @@ public abstract class Account {
     /**
      * notifica a todos los observadores con un mensaje
      */
-    protected void notifyAllObservers(String message) {
+    public void notifyAllObservers(String message) {
         for (Notification n : observers) n.update(message);
     }
 

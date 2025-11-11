@@ -1,24 +1,22 @@
 package org.banksystem.controller;
 
+import org.banksystem.model.Account;
 import java.math.BigDecimal;
-import org.banksystem.model.Customer;
 
+/**
+ * Display name: BalanceValidator — Chain of Responsibility
+ * Valida que la cuenta tenga fondos suficientes.
+ */
 public class BalanceValidator extends TransactionHandler {
+
     @Override
-    public boolean handle(Customer customer, BigDecimal amount) {
-        if (customer == null) {
-            System.out.println("Validación: cliente inexistente");
+    public boolean handle(Account account, BigDecimal amount) {
+        if (account.getBalance().compareTo(amount) < 0) {
+            account.notifyAllObservers("Operación rechazada: fondos insuficientes.");
             return false;
         }
-        if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
-            System.out.println("Validación: monto inválido");
-            return false;
-        }
-        BigDecimal balance = customer.getAccount().getBalance();
-        if (balance.compareTo(amount) < 0) {
-            System.out.println("Validación: fondos insuficientes. /nSaldo: $" + balance);
-            return false;
-        }
-        return next == null || next.handle(customer, amount);
+        if (nextHandler != null) return nextHandler.handle(account, amount);
+        return true;
     }
 }
+

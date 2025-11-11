@@ -1,25 +1,24 @@
 package org.banksystem.controller;
 
+import org.banksystem.model.Account;
 import java.math.BigDecimal;
 
+/**
+ * Display name: WithdrawCommand-Command
+ * Encapsula una operación de retiro
+ */
 public class WithdrawCommand implements Command {
-    private final BankFacade facade;
-    private final String email;
+    private final Account account;
     private final BigDecimal amount;
 
-    public WithdrawCommand(BankFacade facade, String email, BigDecimal amount) {
-        this.facade = facade;
-        this.email = email;
+    public WithdrawCommand(Account account, BigDecimal amount) {
+        this.account = account;
         this.amount = amount;
     }
 
     @Override
     public void execute() {
-        facade.withdraw(email, amount);
-    }
-
-    @Override
-    public String toString() {
-        return "WithdrawCommand{" + email + ", $" + amount + "}";
+        account.withdraw(amount);
     }
 }
+

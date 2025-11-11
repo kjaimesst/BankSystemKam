@@ -1,27 +1,26 @@
 package org.banksystem.controller;
 
+import org.banksystem.model.Account;
 import java.math.BigDecimal;
 
+/**
+ * Display name: TransferCommand — Command
+ * Encapsula una transferencia entre cuentas
+ * */
 public class TransferCommand implements Command {
-    private final BankFacade facade;
-    private final String fromEmail;
-    private final String toEmail;
+    private final Account origin;
+    private final Account destination;
     private final BigDecimal amount;
 
-    public TransferCommand(BankFacade facade, String fromEmail, String toEmail, BigDecimal amount) {
-        this.facade = facade;
-        this.fromEmail = fromEmail;
-        this.toEmail = toEmail;
+    public TransferCommand(Account origin, Account destination, BigDecimal amount) {
+        this.origin = origin;
+        this.destination = destination;
         this.amount = amount;
     }
 
     @Override
     public void execute() {
-        facade.transfer(fromEmail, toEmail, amount);
-    }
-
-    @Override
-    public String toString() {
-        return "TransferCommand{" + fromEmail + "->" + toEmail + ", $" + amount + "}";
+        origin.transfer(amount, destination);
     }
 }
+

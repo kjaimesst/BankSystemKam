@@ -1,112 +1,141 @@
 package org.banksystem.view;
 
 import org.banksystem.controller.*;
+import org.banksystem.model.*;
+
 import java.math.BigDecimal;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
- * Vista por consola (MVC - View). Interactúa con el usuario.
+ * Display name: BankView — MVC View
+ * Vista de consola que permite interactuar con el sistema bancario.
  */
 public class BankView {
     private final BankFacade facade;
-    private final TransactionManager manager;
-    private final Scanner sc;
+    private final Scanner scanner;
 
     public BankView(BankFacade facade) {
         this.facade = facade;
-        this.manager = new TransactionManager();
-        this.sc = new Scanner(System.in);
+        this.scanner = new Scanner(System.in);
     }
 
-    public void start() {
-        System.out.println("KamBank");
-        boolean run = true;
-        while (run) {
-            try {
-                System.out.println("\n1. Registrar cliente");
-                System.out.println("2. Depositar");
-                System.out.println("3. Retirar");
-                System.out.println("4. Transferir");
-                System.out.println("5. Solicitar préstamo");
-                System.out.println("6. Ver cuenta");
-                System.out.println("7. Listar clientes");
-                System.out.println("8. Historial de comandos");
-                System.out.println("0. Salir");
-                System.out.print("Opción: ");
-                int opt = sc.nextInt();
-                sc.nextLine();
+    public void start(boolean isAdmin) {
+        BankProxy proxy = new BankProxy(facade, isAdmin);
+        System.out.println("\n=== BIENVENIDO AL SISTEMA BANCARIO ===");
+        if (isAdmin) {
+            adminMenu(proxy);
+        } else {
+            customerMenu(proxy);
+        }
+    }
 
-                switch (opt) {
-                    case 1 -> register();
-                    case 2 -> deposit();
-                    case 3 -> withdraw();
-                    case 4 -> transfer();
-                    case 5 -> requestLoan();
-                    case 6 -> showAccount();
-                    case 7 -> facade.showCustomers();
-                    case 8 -> manager.showHistory();
-                    case 0 -> {
-                        run = false;
-                        System.out.println("Saliendo... gracias");
+    private void adminMenu(BankProxy proxy) {
+        while (true) {
+            System.out.println("\n--- MENÚ ADMINISTRADOR ---");
+            System.out.println("1. Registrar nuevo cliente");
+            System.out.println("2. Listar clientes");
+            System.out.println("3. Depositar dinero");
+            System.out.println("4. Salir");
+            System.out.print("Seleccione una opción: ");
+            String option = scanner.nextLine();
+
+            switch (option) {
+                case "1":
+                    System.out.print("Nombre del cliente: ");
+                    String name = scanner.nextLine();
+                    System.out.print("Correo electrónico: ");
+                    String email = scanner.nextLine();
+                    System.out.print("Tipo de cuenta (ahorros/corriente): ");
+                    String type = scanner.nextLine();
+                    proxy.registerCustomer(name, email, type);
+                    break;
+                case "2":
+                    proxy.showAllCustomers();
+                    break;
+                case "3":
+                    System.out.print("Correo del cliente: ");
+                    String emailDep = scanner.nextLine();
+                    Customer c = facade.registerCustomer("", emailDep, "");
+                    if (c == null) {
+                        System.out.println("Cliente no encontrado.");
+                        break;
                     }
-                    default -> System.out.println("Opción inválida");
-                }
-            } catch (InputMismatchException e) {
-                System.out.println("Entrada inválida");
-                sc.nextLine();
+                    System.out.print("Monto a depositar: ");
+                    BigDecimal amountDep = new BigDecimal(scanner.nextLine());
+                    proxy.performDeposit(c.getAccount(), amountDep);
+                    break;
+                case "4":
+                    System.out.println("Saliendo del sistema administrador...");
+                    return;
+                default:
+                    System.out.println("Opción no válida.");
             }
         }
-        sc.close();
     }
 
-    private void register() {
-        System.out.print("Nombre: ");
-        String name = sc.nextLine();
-        System.out.print("Email: ");
-        String email = sc.nextLine();
-        System.out.print("Tipo de cuenta (ahorros/corriente): ");
-        String type = sc.nextLine();
-        facade.registerCustomer(name, email, type);
-    }
+    private void customerMenu(BankProxy proxy) {
+        System.out.print("Ingrese su correo registrado: ");
+        String email = scanner.nextLine();
+        Customer c = BankCoreSingleton.getInstance().findCustomerByEmail(email);
+        if (c == null) {
+            System.out.println("Cliente no encontrado. Contacte a un administrador.");
+            return;
+        }
 
-    private void deposit() {
-        System.out.print("Email: ");
-        String email = sc.nextLine();
-        System.out.print("Monto: ");
-        double amount = sc.nextDouble(); sc.nextLine();
-        manager.executeCommand(new DepositCommand(facade, email, BigDecimal.valueOf(amount)));
-    }
+        while (true) {
+            System.out.println("\n--- MENÚ CLIENTE ---");
+            System.out.println("1. Consultar saldo");
+            System.out.println("2. Depositar dinero");
+            System.out.println("3. Retirar dinero");
+            System.out.println("4. Transferir a otro cliente");
+            System.out.println("5. Solicitar préstamo");
+            System.out.println("6. Pagar préstamo");
+            System.out.println("7. Salir");
+            System.out.print("Seleccione una opción: ");
+            String option = scanner.nextLine();
 
-    private void withdraw() {
-        System.out.print("Email: ");
-        String email = sc.nextLine();
-        System.out.print("Monto: ");
-        double amount = sc.nextDouble(); sc.nextLine();
-        manager.executeCommand(new WithdrawCommand(facade, email, BigDecimal.valueOf(amount)));
-    }
-
-    private void transfer() {
-        System.out.print("Email origen: ");
-        String from = sc.nextLine();
-        System.out.print("Email destino: ");
-        String to = sc.nextLine();
-        System.out.print("Monto: ");
-        double amount = sc.nextDouble(); sc.nextLine();
-        manager.executeCommand(new TransferCommand(facade, from, to, BigDecimal.valueOf(amount)));
-    }
-
-    private void requestLoan() {
-        System.out.print("Email: ");
-        String email = sc.nextLine();
-        System.out.print("Monto préstamo: ");
-        double amount = sc.nextDouble(); sc.nextLine();
-        facade.requestLoan(email, amount);
-    }
-
-    private void showAccount() {
-        System.out.print("Email: ");
-        String email = sc.nextLine();
-        facade.showAccount(email);
+            switch (option) {
+                case "1":
+                    System.out.println("Saldo actual: " + c.getAccount().getBalance());
+                    break;
+                case "2":
+                    System.out.print("Monto a depositar: ");
+                    BigDecimal dep = new BigDecimal(scanner.nextLine());
+                    proxy.performDeposit(c.getAccount(), dep);
+                    break;
+                case "3":
+                    System.out.print("Monto a retirar: ");
+                    BigDecimal wd = new BigDecimal(scanner.nextLine());
+                    c.getAccount().withdraw(wd);
+                    break;
+                case "4":
+                    System.out.print("Correo del destinatario: ");
+                    String emailDest = scanner.nextLine();
+                    Customer dest = BankCoreSingleton.getInstance().findCustomerByEmail(emailDest);
+                    if (dest == null) {
+                        System.out.println("Destinatario no encontrado.");
+                        break;
+                    }
+                    System.out.print("Monto a transferir: ");
+                    BigDecimal trans = new BigDecimal(scanner.nextLine());
+                    proxy.performTransfer(c.getAccount(), dest.getAccount(), trans);
+                    break;
+                case "5":
+                    System.out.print("Monto del préstamo: ");
+                    BigDecimal loan = new BigDecimal(scanner.nextLine());
+                    c.getLoan().approveLoan(loan);
+                    break;
+                case "6":
+                    System.out.print("Monto a pagar: ");
+                    BigDecimal pay = new BigDecimal(scanner.nextLine());
+                    c.getLoan().makePayment(pay);
+                    break;
+                case "7":
+                    System.out.println("Cerrando sesión...");
+                    return;
+                default:
+                    System.out.println("Opción no válida.");
+            }
+        }
     }
 }
