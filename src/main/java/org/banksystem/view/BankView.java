@@ -8,36 +8,33 @@ import java.util.Scanner;
 
 /**
  * Display name: BankView — MVC View
- * Vista de consola que permite interactuar con el sistema bancario.
  */
 public class BankView {
     private final BankFacade facade;
     private final Scanner scanner;
 
-    public BankView(BankFacade facade) {
+    // ahora el scanner se pasa desde Main
+    public BankView(BankFacade facade, Scanner scanner) {
         this.facade = facade;
-        this.scanner = new Scanner(System.in);
+        this.scanner = scanner;
     }
 
     public void start(boolean isAdmin) {
         BankProxy proxy = new BankProxy(facade, isAdmin);
-        System.out.println("\n=== BIENVENIDO AL SISTEMA BANCARIO ===");
-        if (isAdmin) {
-            adminMenu(proxy);
-        } else {
-            customerMenu(proxy);
-        }
+        System.out.println("\nKamBankSystem");
+        if (isAdmin) adminMenu(proxy);
+        else customerMenu(proxy);
     }
 
     private void adminMenu(BankProxy proxy) {
         while (true) {
-            System.out.println("\n--- MENÚ ADMINISTRADOR ---");
+            System.out.println("\n MENÚ ADMINISTRADOR");
             System.out.println("1. Registrar nuevo cliente");
             System.out.println("2. Listar clientes");
             System.out.println("3. Depositar dinero");
             System.out.println("4. Salir");
             System.out.print("Seleccione una opción: ");
-            String option = scanner.nextLine();
+            String option = scanner.nextLine().trim();
 
             switch (option) {
                 case "1":
@@ -55,7 +52,7 @@ public class BankView {
                 case "3":
                     System.out.print("Correo del cliente: ");
                     String emailDep = scanner.nextLine();
-                    Customer c = facade.registerCustomer("", emailDep, "");
+                    Customer c = BankCoreSingleton.getInstance().findCustomerByEmail(emailDep);
                     if (c == null) {
                         System.out.println("Cliente no encontrado.");
                         break;
@@ -65,10 +62,10 @@ public class BankView {
                     proxy.performDeposit(c.getAccount(), amountDep);
                     break;
                 case "4":
-                    System.out.println("Saliendo del sistema administrador...");
-                    return;
+                    System.out.println("Cerrando sesión de administrador...");
+                    return; // <-- aquí sí termina el bucle
                 default:
-                    System.out.println("Opción no válida.");
+                    System.out.println("Opción no válida. Intente de nuevo.");
             }
         }
     }
@@ -83,7 +80,7 @@ public class BankView {
         }
 
         while (true) {
-            System.out.println("\n--- MENÚ CLIENTE ---");
+            System.out.println("\n MENÚ CLIENTE ");
             System.out.println("1. Consultar saldo");
             System.out.println("2. Depositar dinero");
             System.out.println("3. Retirar dinero");
@@ -92,7 +89,7 @@ public class BankView {
             System.out.println("6. Pagar préstamo");
             System.out.println("7. Salir");
             System.out.print("Seleccione una opción: ");
-            String option = scanner.nextLine();
+            String option = scanner.nextLine().trim();
 
             switch (option) {
                 case "1":
@@ -134,7 +131,7 @@ public class BankView {
                     System.out.println("Cerrando sesión...");
                     return;
                 default:
-                    System.out.println("Opción no válida.");
+                    System.out.println("Opción no válida. Intente de nuevo.");
             }
         }
     }
