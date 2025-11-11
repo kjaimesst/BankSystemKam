@@ -1,4 +1,11 @@
 package org.banksystem.model;
 
-public class CheckingAccount {
+/**
+ * Display name: CheckingAccount — (Concrete Product of FactoryMethod)
+ */
+public class CheckingAccount extends Account {
+    @Override
+    public String getType() {
+        return "Corriente";
+    }
 }

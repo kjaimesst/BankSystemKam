@@ -1,4 +1,11 @@
 package org.banksystem.model;
 
-public class SavingsAccount {
+/**
+ * Display name: SavingsAccount — (Concrete Product of FactoryMethod)
+ */
+public class SavingsAccount extends Account {
+    @Override
+    public String getType() {
+        return "Ahorros";
+    }
 }

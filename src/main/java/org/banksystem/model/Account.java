@@ -8,10 +8,10 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * Display name: Account — Strategy + Observer
- * Clase abstracta base de cuentas bancarias.
+ * Display name: Account- Strategy + Observer
+ * Clase abstracta base de cuentas bancarias
  * Implementa el patrón Observer (para notificaciones)
- * y usa Strategy (para cálculo de intereses).
+ * y usa Strategy (para cálculo de intereses)
  */
 public abstract class Account {
 
@@ -36,14 +36,14 @@ public abstract class Account {
     }
 
     /**
-     * Agrega un observador para recibir notificaciones de la cuenta.
+     * agrega un observador para recibir notificaciones de la cuenta
      */
     public void addObserver(Notification n) {
         if (n != null) observers.add(n);
     }
 
     /**
-     * Notifica a todos los observadores con un mensaje.
+     * notifica a todos los observadores con un mensaje
      */
     protected void notifyAllObservers(String message) {
         for (Notification n : observers) n.update(message);
@@ -58,11 +58,11 @@ public abstract class Account {
     }
 
     /**
-     * Deposita dinero en la cuenta.
+     * Deposita dinero en la cuent
      */
     public boolean deposit(BigDecimal amount) {
         if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
-            notifyAllObservers("Intento de depósito inválido: el monto debe ser mayor que 0.");
+            notifyAllObservers("Intento de depósito inválido: el monto debe ser mayor que 0");
             return false;
         }
         balance = balance.add(amount);
@@ -73,15 +73,15 @@ public abstract class Account {
     }
 
     /**
-     * Retira dinero de la cuenta si hay fondos suficientes.
+     * Retira dinero de la cuenta si hay fondos suficientes
      */
     public boolean withdraw(BigDecimal amount) {
         if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
-            notifyAllObservers("Intento de retiro inválido: el monto debe ser mayor que 0.");
+            notifyAllObservers("Intento de retiro inválido: el monto debe ser mayor que 0");
             return false;
         }
         if (balance.compareTo(amount) < 0) {
-            notifyAllObservers("Retiro fallido: fondos insuficientes.");
+            notifyAllObservers("Retiro fallido: fondos insuficientes");
             return false;
         }
         balance = balance.subtract(amount);
@@ -92,19 +92,19 @@ public abstract class Account {
     }
 
     /**
-     * Transfiere dinero a otra cuenta.
+     * transfiere dinero a otra cuenta
      */
     public boolean transfer(BigDecimal amount, Account destination) {
         if (destination == null) {
-            notifyAllObservers("Transferencia fallida: cuenta destino inválida.");
+            notifyAllObservers("Transferencia fallida: cuenta destino inválida");
             return false;
         }
         if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
-            notifyAllObservers("Transferencia fallida: monto inválido.");
+            notifyAllObservers("Transferencia fallida: monto inválido");
             return false;
         }
         if (balance.compareTo(amount) < 0) {
-            notifyAllObservers("Transferencia fallida: fondos insuficientes.");
+            notifyAllObservers("Transferencia fallida: fondos insuficientes");
             return false;
         }
         balance = balance.subtract(amount);
@@ -121,14 +121,14 @@ public abstract class Account {
     }
 
     /**
-     * Asigna una estrategia de cálculo de interés.
+     * asigna una estrategia de cálculo de interes
      */
     public void setInterestStrategy(InterestStrategy s) {
         this.interestStrategy = s;
     }
 
     /**
-     * Aplica el interés según la estrategia seleccionada.
+     * Aplica el interés según la estrategia seleccionada
      */
     public void applyInterest() {
         if (interestStrategy == null) return;
@@ -142,7 +142,7 @@ public abstract class Account {
     }
 
     /**
-     * Método abstracto que define el tipo de cuenta (Ahorros, Corriente, etc.)
+     * metodo abstracto que define el tipo de cuenta (Ahorros, Corriente, etc.)
      */
     public abstract String getType();
 }

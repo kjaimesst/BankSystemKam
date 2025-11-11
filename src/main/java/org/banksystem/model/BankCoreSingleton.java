@@ -3,22 +3,18 @@ package org.banksystem.model;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Núcleo del banco: Singleton que guarda clientes.
- */
-public class BankCore {
-    private static volatile BankCore instance;
+public class BankCoreSingleton {
+    private static volatile BankCoreSingleton instance;
     private final List<Customer> customers;
 
-
-    private BankCore() {
-        customers = new ArrayList<>();
+    private BankCoreSingleton() {
+        this.customers = new ArrayList<>();
     }
 
-    public static BankCore getInstance() {
+    public static BankCoreSingleton getInstance() {
         if (instance == null) {
-            synchronized (BankCore.class) {
-                if (instance == null) instance = new BankCore();
+            synchronized (BankCoreSingleton.class) {
+                if (instance == null) instance = new BankCoreSingleton();
             }
         }
         return instance;
@@ -26,7 +22,7 @@ public class BankCore {
 
     public synchronized Customer registerCustomer(String name, String email, String accountType) {
         if (email == null || email.trim().isEmpty()) {
-            System.out.println("Error: correo inválido.");
+            System.out.println("Error: correo inválido");
             return null;
         }
         String norm = email.trim().toLowerCase();
@@ -66,6 +62,7 @@ public class BankCore {
         }
     }
 
+    // Para tests: limpiar estado entre pruebas
     public synchronized void clearForTests() {
         customers.clear();
     }
