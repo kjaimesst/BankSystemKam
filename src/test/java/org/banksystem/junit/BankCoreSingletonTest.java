@@ -1,4 +1,4 @@
-package org.banksystem;
+package org.banksystem.junit;
 
 import org.banksystem.model.BankCoreSingleton;
 import org.banksystem.model.Customer;

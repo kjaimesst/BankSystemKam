@@ -1,4 +1,4 @@
-package org.banksystem;
+package org.banksystem.junit;
 
 import org.banksystem.model.Account;
 import org.banksystem.model.Notification;
