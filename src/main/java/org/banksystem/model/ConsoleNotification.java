@@ -15,5 +15,3 @@ public class ConsoleNotification implements Notification {
         System.out.println(" Notificación para " + ownerName + ": " + message);
     }
 }
-
-

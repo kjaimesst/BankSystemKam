@@ -21,4 +21,3 @@ public class WithdrawCommand implements Command {
         account.withdraw(amount);
     }
 }
-

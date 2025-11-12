@@ -19,4 +19,3 @@ public class BalanceValidator extends TransactionHandler {
         return true;
     }
 }
-

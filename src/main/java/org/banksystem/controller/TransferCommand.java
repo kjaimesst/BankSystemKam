@@ -23,4 +23,3 @@ public class TransferCommand implements Command {
         origin.transfer(amount, destination);
     }
 }
-

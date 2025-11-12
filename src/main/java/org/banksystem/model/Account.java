@@ -115,9 +115,13 @@ public abstract class Account {
 
         notifyAllObservers("Transferencia enviada por " + formatMoney(amount)
                 + ". Nuevo saldo: " + formatMoney(balance));
-        destination.notifyAllObservers("Ha recibido una transferencia de " + formatMoney(amount)
+        destination.notifyObserversFromTransfer("Ha recibido una transferencia de " + formatMoney(amount)
                 + ". Nuevo saldo: " + formatMoney(destination.balance));
+
         return true;
+    }
+    public void notifyObserversFromTransfer(String message) {
+        notifyAllObservers(message);
     }
 
     /**
