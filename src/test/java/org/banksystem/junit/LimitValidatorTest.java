@@ -17,7 +17,6 @@ class LimitValidatorTest {
     void setUp() {
         validator = new LimitValidator();
 
-        // Simulamos una cuenta sin necesidad de constructor
         mockAccount = Mockito.mock(Account.class);
     }
 

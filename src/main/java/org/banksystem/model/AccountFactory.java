@@ -1,8 +1,8 @@
 package org.banksystem.model;
 
 /**
- * Display name: AccountFactory — FactoryMethod
- * Fábrica simple para crear cuentas por tipo.
+ * accountFactory - factoryMethod
+ * fábrica simple para crear cuentas por tipo
  */
 public class AccountFactory {
     public static Account createAccount(String type) {

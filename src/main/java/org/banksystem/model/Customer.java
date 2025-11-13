@@ -1,8 +1,5 @@
 package org.banksystem.model;
 
-/**
- * Display name: Customer — Entity
- */
 public class Customer {
     private final String name;
     private final String email;
@@ -13,13 +10,21 @@ public class Customer {
         this.name = name;
         this.email = email;
         this.account = account;
-        this.account.addObserver(new ConsoleNotification(name)); // suscribimos notificaciones
+        this.account.addObserver(new ConsoleNotification(name)); // suscribir notificaciones
         this.loan = new Loan(this);
     }
 
-    public String getName() { return name; }
-    public String getEmail() { return email; }
-    public Account getAccount() { return account; }
-    public Loan getLoan() { return loan; }
+    public String getName() {
+        return name;
+    }
+    public String getEmail() {
+        return email;
+    }
+    public Account getAccount() {
+        return account;
+    }
+    public Loan getLoan() {
+        return loan;
+    }
 }
 

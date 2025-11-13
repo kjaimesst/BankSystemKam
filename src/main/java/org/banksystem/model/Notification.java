@@ -1,9 +1,10 @@
 package org.banksystem.model;
 
 /**
- * Interfaz de notificación (Observer).
- * Implementaciones pueden enviar notificaciones por consola, email, SMS, etc.
+ * interfaz observer
+ * implementaciones pueden enviar notificaciones por consola, email, SMS y dmas
  */
-public interface Notification {
-    void update(String message);
+
+    public interface Notification {
+        void update(String message);
 }

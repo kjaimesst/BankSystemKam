@@ -4,9 +4,8 @@ import org.banksystem.model.*;
 import java.math.BigDecimal;
 
 /**
- * Display name: BankFacade — Facade
- * Simplifica el uso del sistema bancario, ofreciendo métodos directos
- * para las operaciones más comunes.
+ *  patron facade: simplifica el uso del sistema bancario, ofreciendo métodos directos
+ * para las operaciones más comunes
  */
 public class BankFacade {
     private final BankCoreSingleton core = BankCoreSingleton.getInstance();

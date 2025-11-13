@@ -9,9 +9,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Pruebas básicas para BankCoreSingleton
- */
+
 class BankCoreSingletonTest {
 
     private BankCoreSingleton banco;
@@ -19,7 +17,7 @@ class BankCoreSingletonTest {
     @BeforeEach
     void setUp() {
         banco = BankCoreSingleton.getInstance();
-        banco.clearForTests(); // Limpia la lista antes de cada prueba
+        banco.clearForTests();
     }
 
     @Test

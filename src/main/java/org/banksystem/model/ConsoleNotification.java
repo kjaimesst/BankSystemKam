@@ -1,8 +1,9 @@
 package org.banksystem.model;
 
 /**
- * Implementación simple que imprime la notificación en consola
+ * implementacion simple que imprime la notificación en consola
  */
+
 public class ConsoleNotification implements Notification {
     private final String ownerName;
 

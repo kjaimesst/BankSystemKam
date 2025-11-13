@@ -8,10 +8,10 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * Display name: Account- Strategy + Observer
- * Clase abstracta base de cuentas bancarias
- * Implementa el patrón Observer (para notificaciones)
- * y usa Strategy (para cálculo de intereses)
+ *  strategy + observer
+ * clase abstracta base de cuentas bancarias
+ * se implementa el patrón observer para notificaciones
+ * y usa Strategy para cálculo de intereses
  */
 public abstract class Account {
 
@@ -58,7 +58,7 @@ public abstract class Account {
     }
 
     /**
-     * Deposita dinero en la cuent
+     * deposita dinero en la cuent
      */
     public boolean deposit(BigDecimal amount) {
         if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
@@ -73,7 +73,7 @@ public abstract class Account {
     }
 
     /**
-     * Retira dinero de la cuenta si hay fondos suficientes
+     * retira dinero de la cuenta si hay fondos suficientes
      */
     public boolean withdraw(BigDecimal amount) {
         if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
@@ -132,7 +132,7 @@ public abstract class Account {
     }
 
     /**
-     * Aplica el interés según la estrategia seleccionada
+     * aplica el interés según la estrategia seleccionada
      */
     public void applyInterest() {
         if (interestStrategy == null) return;
@@ -146,7 +146,7 @@ public abstract class Account {
     }
 
     /**
-     * metodo abstracto que define el tipo de cuenta (Ahorros, Corriente, etc.)
+     * metodo abstracto que define el tipo de cuenta ahorros, corriente
      */
     public abstract String getType();
 }

@@ -4,8 +4,7 @@ import org.banksystem.model.Account;
 import java.math.BigDecimal;
 
 /**
- * Display name: TransactionHandler — Chain of Responsibility
- * Clase base para manejar validaciones en cadena.
+ * patron chain of responsibility: clase base para manejar validaciones en cadena
  */
 public abstract class TransactionHandler {
     protected TransactionHandler nextHandler;

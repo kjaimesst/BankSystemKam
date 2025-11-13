@@ -4,8 +4,7 @@ import org.banksystem.model.Account;
 import java.math.BigDecimal;
 
 /**
- * Display name: BalanceValidator — Chain of Responsibility
- * Valida que la cuenta tenga fondos suficientes.
+ * chain of Responsibility: valida que la cuenta tenga fondos suficientes
  */
 public class BalanceValidator extends TransactionHandler {
 

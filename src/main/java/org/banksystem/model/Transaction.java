@@ -6,8 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 /**
- * Display name: Transaction — Registro
- * Clase de apoyo que registra cada operación (depósito, retiro, transferencia, interés).
+ * registro: clase de apoyo que registra cada operacion (deposito, retiro, transferencia, interes)
  */
 public class Transaction {
     private final String id;
@@ -30,7 +29,13 @@ public class Transaction {
         return "[" + timestamp.format(f) + "] " + type + " - $" + amount + " (" + description + ")";
     }
 
-    public String getId() { return id; }
-    public String getType() { return type; }
-    public BigDecimal getAmount() { return amount; }
+    public String getId() {
+        return id;
+    }
+    public String getType() {
+        return type;
+    }
+    public BigDecimal getAmount() {
+        return amount;
+    }
 }

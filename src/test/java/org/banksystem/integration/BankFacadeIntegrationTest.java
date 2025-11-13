@@ -13,7 +13,7 @@ class BankFacadeIntegrationTest {
 
     private BankFacade facade;
     private Customer ori;
-    private Customer jhair;
+    private Customer mela;
 
     @BeforeEach
     void setUp() {
@@ -21,7 +21,7 @@ class BankFacadeIntegrationTest {
         BankCoreSingleton.getInstance().clearForTests();
 
         ori = facade.registerCustomer("Oriana", "ori@bank.com", "Ahorros");
-        jhair = facade.registerCustomer("Jhair", "jhair@bank.com", "Ahorros");
+        mela = facade.registerCustomer("Mela", "mela@bank.com", "Ahorros");
     }
 
     @Test
@@ -47,7 +47,7 @@ class BankFacadeIntegrationTest {
     @Test
     void testTransferMoney_ShouldMoveFundsBetweenAccounts() {
         Account from = ori.getAccount();
-        Account to = jhair.getAccount();
+        Account to = mela.getAccount();
         from.deposit(new BigDecimal("5000"));
 
         facade.transferMoney(from, to, new BigDecimal("2000"));

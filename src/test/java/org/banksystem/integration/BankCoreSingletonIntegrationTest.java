@@ -11,7 +11,7 @@ class BankCoreSingletonIntegrationTest {
     @BeforeEach
     void setUp() {
         core = BankCoreSingleton.getInstance();
-        core.clearForTests(); // limpiar lista de clientes entre pruebas
+        core.clearForTests();
     }
 
     @Test

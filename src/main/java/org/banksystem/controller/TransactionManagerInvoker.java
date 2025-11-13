@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Display name: TransactionManagerInvoker — Invoker
- * Ejecuta comandos y mantiene un historial de operaciones.
+ * patron command (invoker): ejecuta comandos y mantiene un historial de operacioness
  */
+
 public class TransactionManagerInvoker {
     private final List<Command> history = new ArrayList<>();
 

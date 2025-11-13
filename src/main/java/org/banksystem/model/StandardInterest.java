@@ -3,8 +3,8 @@ package org.banksystem.model;
 import java.math.BigDecimal;
 
 /**
- * Display name: StandardInterest — Strategy
- * Estrategia estándar (por ejemplo 1%).
+ * strategy
+ * estrategia estandar como ejem 1%
  */
 public class StandardInterest implements InterestStrategy {
     private final BigDecimal rate;

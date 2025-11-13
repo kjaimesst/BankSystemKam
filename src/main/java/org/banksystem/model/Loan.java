@@ -5,9 +5,8 @@ import java.text.NumberFormat;
 import java.util.Locale;
 
 /**
- * Display name: Loan — Domain object
- * Representa un préstamo dentro del sistema bancario.
- * Se comunica con la cuenta del cliente y envía notificaciones usando el patrón Observer.
+ *  loan: rpresenta un préstamo dentro del sistema bancario
+ * se comunica con la cuenta del cliente y envía notificaciones usando el patrón observer
  */
 public class Loan {
     private final Customer owner;
@@ -27,16 +26,15 @@ public class Loan {
         return formatted.replace(",00", "");
     }
 
-    /**
-     * Aprueba un préstamo y deposita el dinero en la cuenta del cliente.
-     */
+    // aprueba un prestamo y deposita el dinero en la cuenta del client
+
     public boolean approveLoan(BigDecimal amount) {
         if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
             owner.getAccount().notifyAllObservers("Solicitud de préstamo inválida: monto debe ser mayor que 0");
             return false;
         }
 
-        // Aumenta la deuda y deposita el préstamo
+        // aumenta la deuda y deposita el prestamo
         outstanding = outstanding.add(amount);
         owner.getAccount().deposit(amount);
 
@@ -47,7 +45,7 @@ public class Loan {
     }
 
     /**
-     * Permite realizar pagos parciales o totales al préstamo
+     * permite realizar pagos parciales o totales al prestamo
      */
     public boolean makePayment(BigDecimal payment) {
         if (payment == null || payment.compareTo(BigDecimal.ZERO) <= 0) {
@@ -71,9 +69,8 @@ public class Loan {
         return true;
     }
 
-    /**
-     * Retorna la deuda actual
-     */
+    // retorna la deuda actual
+
     public BigDecimal getOutstanding() {
         return outstanding;
     }

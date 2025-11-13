@@ -4,8 +4,7 @@ import org.banksystem.model.Account;
 import java.math.BigDecimal;
 
 /**
- * Display name: TransferCommand — Command
- * Encapsula una transferencia entre cuentas
+ * patron command: encapsula una transferencia entre cuentas
  * */
 public class TransferCommand implements Command {
     private final Account origin;

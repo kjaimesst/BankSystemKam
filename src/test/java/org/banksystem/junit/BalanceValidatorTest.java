@@ -47,7 +47,7 @@ class BalanceValidatorTest {
 
     @Test
     void testHandle_WhenNextHandlerExists_ShouldDelegate() {
-        // balance = 1000 → suficiente
+        // balance = 1000 --> suficiente
         when(mockAccount.getBalance()).thenReturn(new BigDecimal("1000"));
 
         // Simulamos el siguiente validador
