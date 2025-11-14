@@ -9,9 +9,6 @@ import java.math.BigDecimal;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-/**
- * Pruebas de integración enfocadas en validar patrones de diseño
- */
 class PatternIntegrationTest {
 
     @BeforeEach
@@ -25,16 +22,13 @@ class PatternIntegrationTest {
         Account account = AccountFactory.createAccount("Ahorros");
         account.deposit(new BigDecimal("1000"));
 
-        // Crear cadena de validadores
         TransactionHandler limitValidator = new LimitValidator();
         TransactionHandler balanceValidator = new BalanceValidator();
         limitValidator.setNextHandler(balanceValidator);
 
-        // Retiro válido (pasa ambos validadores)
         boolean resultValid = limitValidator.handle(account, new BigDecimal("-500"));
         assertTrue(resultValid, "Debe pasar la validación con fondos suficientes");
 
-        // Retiro inválido (falla balance validator)
         boolean resultInvalid = limitValidator.handle(account, new BigDecimal("-2000"));
         assertFalse(resultInvalid, "Debe fallar la validación sin fondos suficientes");
     }
@@ -47,14 +41,12 @@ class PatternIntegrationTest {
 
         BigDecimal initialBalance = account.getBalance();
 
-        // Ejecutar comando de depósito
         Command depositCommand = new DepositCommand(account, new BigDecimal("1000"));
         invoker.executeCommand(depositCommand);
 
         assertEquals(initialBalance.add(new BigDecimal("1000")), account.getBalance(),
             "El balance debe incrementarse después del depósito");
 
-        // Ejecutar comando de retiro
         Command withdrawCommand = new WithdrawCommand(account, new BigDecimal("300"));
         invoker.executeCommand(withdrawCommand);
 
@@ -85,10 +77,8 @@ class PatternIntegrationTest {
 
         assertSame(instance1, instance2, "Debe retornar la misma instancia");
 
-        // Registrar cliente en instance1
         instance1.registerCustomer("Test User", "test@bank.com", "Ahorros");
 
-        // Verificar que se ve en instance2
         assertEquals(1, instance2.getCustomers().size(),
             "Ambas referencias deben apuntar al mismo objeto");
     }
@@ -96,19 +86,17 @@ class PatternIntegrationTest {
     @Test
     @DisplayName("Pattern: Strategy - Diferentes estrategias de interés")
     void testStrategyPattern_InterestStrategies() {
-        // Estrategia estándar
+
         InterestStrategy standardStrategy = new StandardInterest();
         BigDecimal standardInterest = standardStrategy.calculateInterest(new BigDecimal("10000"));
         assertTrue(standardInterest.compareTo(BigDecimal.ZERO) > 0,
             "Interés estándar debe ser mayor a cero");
 
-        // Estrategia premium
-        InterestStrategy premiumStrategy = new PremiumInterest();
+         InterestStrategy premiumStrategy = new PremiumInterest();
         BigDecimal premiumInterest = premiumStrategy.calculateInterest(new BigDecimal("10000"));
         assertTrue(premiumInterest.compareTo(standardInterest) > 0,
             "Interés premium debe ser mayor que el estándar");
 
-        // Verificar que se pueden calcular intereses con diferentes estrategias
         assertNotNull(standardInterest, "Debe calcular interés estándar");
         assertNotNull(premiumInterest, "Debe calcular interés premium");
     }
@@ -118,15 +106,12 @@ class PatternIntegrationTest {
     void testObserverPattern_Notifications() {
         Account account = AccountFactory.createAccount("Ahorros");
         
-        // Crear observer mock
         Notification mockNotification = mock(Notification.class);
         account.addObserver(mockNotification);
 
-        // Realizar operación que debe notificar
-        account.deposit(new BigDecimal("1000"));
+         account.deposit(new BigDecimal("1000"));
 
-        // Verificar que se notificó al observador
-        verify(mockNotification, atLeastOnce()).update(anyString());
+         verify(mockNotification, atLeastOnce()).update(anyString());
     }
 
     @Test
@@ -134,7 +119,6 @@ class PatternIntegrationTest {
     void testFacadePattern_SimplifiedOperations() {
         BankFacade facade = new BankFacade();
         
-        // El facade debe simplificar operaciones complejas
         Customer customer = facade.registerCustomer("Facade Test", "facade@bank.com", "Ahorros");
         assertNotNull(customer, "Facade debe registrar cliente correctamente");
 
@@ -156,13 +140,11 @@ class PatternIntegrationTest {
         Account senderAccount = sender.getAccount();
         Account receiverAccount = receiver.getAccount();
 
-        // Depositar fondos al emisor
         facade.depositMoney(senderAccount, new BigDecimal("3000"));
 
         BigDecimal senderInitial = senderAccount.getBalance();
         BigDecimal receiverInitial = receiverAccount.getBalance();
 
-        // Transferir (usa validadores y comando)
         facade.transferMoney(senderAccount, receiverAccount, new BigDecimal("1500"));
 
         assertEquals(senderInitial.subtract(new BigDecimal("1500")), senderAccount.getBalance(),
@@ -179,11 +161,9 @@ class PatternIntegrationTest {
 
         TransactionHandler limitValidator = new LimitValidator();
 
-        // Depósito dentro del límite (10 millones)
         boolean validDeposit = limitValidator.handle(account, new BigDecimal("5000"));
         assertTrue(validDeposit, "Depósito dentro del límite debe ser válido");
 
-        // Depósito excediendo límite (más de 10 millones)
         boolean invalidDeposit = limitValidator.handle(account, new BigDecimal("15000000"));
         assertFalse(invalidDeposit, "Depósito excediendo límite de 10 millones debe ser rechazado");
     }

@@ -25,7 +25,7 @@ class BalanceValidatorTest {
 
     @Test
     void testHandle_WhenBalanceIsSufficient_ShouldReturnTrue() {
-        // balance = 1000, amount = -500 → válido (retiro)
+
         when(mockAccount.getBalance()).thenReturn(new BigDecimal("1000"));
 
         boolean result = validator.handle(mockAccount, new BigDecimal("-500"));
@@ -38,7 +38,7 @@ class BalanceValidatorTest {
 
     @Test
     void testHandle_WhenBalanceIsInsufficient_ShouldReturnFalse() {
-        // balance = 200, amount = -500 → insuficiente (retiro)
+
         when(mockAccount.getBalance()).thenReturn(new BigDecimal("200"));
 
         boolean result = validator.handle(mockAccount, new BigDecimal("-500"));
@@ -49,10 +49,10 @@ class BalanceValidatorTest {
 
     @Test
     void testHandle_WhenNextHandlerExists_ShouldDelegate() {
-        // balance = 1000, amount = -500 --> suficiente, debe delegar
+
         when(mockAccount.getBalance()).thenReturn(new BigDecimal("1000"));
 
-        // Simulamos el siguiente validador
+
         TransactionHandler next = Mockito.mock(TransactionHandler.class);
         validator.setNextHandler(next);
         when(next.handle(mockAccount, new BigDecimal("-500"))).thenReturn(true);

@@ -28,6 +28,7 @@ class AccountTest {
 
     @Test
     void deposit_success_updatesBalanceTransactionsAndNotifies() {
+
         boolean ok = a1.deposit(new BigDecimal("1000"));
         assertTrue(ok, "El depósito debería retornar true");
         assertEquals(0, a1.getBalance().compareTo(new BigDecimal("1000")), "Balance debe ser 1000");
@@ -38,6 +39,7 @@ class AccountTest {
 
     @Test
     void deposit_invalid_amount_notAccepted_andNotifies() {
+
         boolean ok = a1.deposit(BigDecimal.ZERO);
         assertFalse(ok, "Depósito de 0 debe fallar");
         assertEquals("Intento de depósito inválido: el monto debe ser mayor que 0", n1.lastMessage);
@@ -56,7 +58,7 @@ class AccountTest {
         assertEquals(2, a1.getTransactions().size(), "Debe haber 2 transacciones (depósito + retiro)");
         assertTrue(n1.lastMessage.startsWith("Retiro realizado por "), "Notificación de retiro esperada");
 
-        // Intento de retirar más de lo disponible
+
         boolean ok2 = a1.withdraw(new BigDecimal("1000"));
         assertFalse(ok2, "Retiro mayor al balance debe fallar");
         assertEquals("Retiro fallido: fondos insuficientes", n1.lastMessage);
@@ -77,12 +79,11 @@ class AccountTest {
 
     @Test
     void transfer_invalidDestinationAndAmount() {
-        // destino null
+
         boolean ok = a1.transfer(new BigDecimal("100"), null);
         assertFalse(ok);
         assertEquals("Transferencia fallida: cuenta destino inválida", n1.lastMessage);
 
-        // monto inválido
         ok = a1.transfer(BigDecimal.ZERO, a2);
         assertFalse(ok);
         assertEquals("Transferencia fallida: monto inválido", n1.lastMessage);
@@ -91,10 +92,10 @@ class AccountTest {
     @Test
     void applyInterest_addsInterest_whenStrategySet() {
         a1.deposit(new BigDecimal("1000"));
-        // estrategia del 10%
+
         a1.setInterestStrategy(balance -> balance.multiply(new BigDecimal("0.10")));
         a1.applyInterest();
-        // 1000 + 100 = 1100
+
         assertEquals(0, a1.getBalance().compareTo(new BigDecimal("1100")), "Balance debe incluir el interés aplicado");
         assertTrue(n1.lastMessage.startsWith("Interés aplicado: "), "Debe notificarse el interés aplicado");
         assertEquals(2, a1.getTransactions().size(), "Depósito + Interés");
@@ -103,7 +104,7 @@ class AccountTest {
     @Test
     void applyInterest_noStrategy_doesNothing() {
         a1.deposit(new BigDecimal("500"));
-        a1.applyInterest(); // no strategy -> no cambio
+        a1.applyInterest();
         assertEquals(0, a1.getBalance().compareTo(new BigDecimal("500")));
     }
 

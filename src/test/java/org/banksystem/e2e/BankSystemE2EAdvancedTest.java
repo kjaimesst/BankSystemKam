@@ -9,9 +9,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
- * Pruebas E2E adicionales para casos más complejos y de borde
- */
+
 class BankSystemE2EAdvancedTest {
 
     private BankFacade facade;
@@ -30,11 +28,9 @@ class BankSystemE2EAdvancedTest {
         Customer customer = facade.registerCustomer("Ana", "ana@bank.com", "Ahorros");
         Account account = customer.getAccount();
 
-        // Intentar retirar sin fondos
         BigDecimal initialBalance = account.getBalance();
         facade.withdrawMoney(account, new BigDecimal("1000"));
 
-        // El saldo no debe cambiar si no hay fondos
         assertEquals(initialBalance, account.getBalance(), 
             "El saldo no debe cambiar cuando no hay fondos suficientes");
     }
@@ -56,19 +52,15 @@ class BankSystemE2EAdvancedTest {
         Account accBob = bob.getAccount();
         Account accCharlie = charlie.getAccount();
 
-        // Alice deposita y transfiere a Bob
         facade.depositMoney(accAlice, new BigDecimal("10000"));
         facade.transferMoney(accAlice, accBob, new BigDecimal("3000"));
 
-        // Bob transfiere a Charlie
         facade.transferMoney(accBob, accCharlie, new BigDecimal("1000"));
 
-        // Verificar saldos finales
         assertEquals(new BigDecimal("7000"), accAlice.getBalance());
         assertEquals(new BigDecimal("2000"), accBob.getBalance());
         assertEquals(new BigDecimal("1000"), accCharlie.getBalance());
 
-        // Verificar historial de transacciones
         assertTrue(accAlice.getTransactions().size() >= 2, "Alice debe tener al menos 2 transacciones");
         assertTrue(accBob.getTransactions().size() >= 2, "Bob debe tener al menos 2 transacciones");
         assertTrue(accCharlie.getTransactions().size() >= 1, "Charlie debe tener al menos 1 transacción");
@@ -89,7 +81,6 @@ class BankSystemE2EAdvancedTest {
         assertInstanceOf(SavingsAccount.class, savingsAcc, "Debe ser cuenta de ahorros");
         assertInstanceOf(CheckingAccount.class, checkingAcc, "Debe ser cuenta corriente");
 
-        // Ambas cuentas deben poder realizar operaciones básicas
         facade.depositMoney(savingsAcc, new BigDecimal("5000"));
         facade.depositMoney(checkingAcc, new BigDecimal("3000"));
 
@@ -115,21 +106,17 @@ class BankSystemE2EAdvancedTest {
         Customer customer = facade.registerCustomer("Historial User", "historial@bank.com", "Ahorros");
         Account account = customer.getAccount();
 
-        // Serie de operaciones
         facade.depositMoney(account, new BigDecimal("1000"));
         facade.depositMoney(account, new BigDecimal("500"));
         facade.withdrawMoney(account, new BigDecimal("300"));
         facade.depositMoney(account, new BigDecimal("200"));
 
-        // Verificar saldo final
         assertEquals(new BigDecimal("1400"), account.getBalance());
 
-        // Verificar que se registraron todas las transacciones
         List<Transaction> transactions = account.getTransactions();
         assertTrue(transactions.size() >= 4, "Debe haber al menos 4 transacciones registradas");
 
-        // Verificar tipos de transacciones
-        long deposits = transactions.stream()
+         long deposits = transactions.stream()
             .filter(t -> t.getType().equalsIgnoreCase("Depósito") || t.getType().equalsIgnoreCase("DEPOSIT"))
             .count();
         long withdrawals = transactions.stream()
@@ -151,17 +138,14 @@ class BankSystemE2EAdvancedTest {
         Account acc2 = c2.getAccount();
         Account acc3 = c3.getAccount();
 
-        // Setup inicial
         facade.depositMoney(acc1, new BigDecimal("3000"));
         facade.depositMoney(acc2, new BigDecimal("2000"));
         facade.depositMoney(acc3, new BigDecimal("1000"));
 
-        // Transferencia circular: 1 -> 2 -> 3 -> 1
         facade.transferMoney(acc1, acc2, new BigDecimal("500"));
         facade.transferMoney(acc2, acc3, new BigDecimal("500"));
         facade.transferMoney(acc3, acc1, new BigDecimal("500"));
 
-        // Los saldos deberían ser los mismos que al inicio
         assertEquals(new BigDecimal("3000"), acc1.getBalance());
         assertEquals(new BigDecimal("2000"), acc2.getBalance());
         assertEquals(new BigDecimal("1000"), acc3.getBalance());
