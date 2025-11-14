@@ -5,6 +5,7 @@ package org.banksystem.model;
  */
 
 public class SavingsAccount extends Account {
+
     @Override
     public String getType() {
         return "Ahorros";

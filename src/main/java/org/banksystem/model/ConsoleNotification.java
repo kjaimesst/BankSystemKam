@@ -1,7 +1,7 @@
 package org.banksystem.model;
 
 /**
- * implementacion simple que imprime la notificación en consola
+ * implementacion simple que imprime la notificacion en consola
  */
 
 public class ConsoleNotification implements Notification {

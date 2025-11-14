@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * patron command (invoker): ejecuta comandos y mantiene un historial de operacioness
+ * patron command (invoker) ejecuta comandos y mantiene un historial de operacioness
  */
 
 public class TransactionManagerInvoker {

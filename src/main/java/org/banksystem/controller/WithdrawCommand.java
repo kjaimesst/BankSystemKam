@@ -4,8 +4,9 @@ import org.banksystem.model.Account;
 import java.math.BigDecimal;
 
 /**
- * command: encapsula una operación de retiro
+ * command encapsula una operación de retiro
  */
+
 public class WithdrawCommand implements Command {
     private final Account account;
     private final BigDecimal amount;

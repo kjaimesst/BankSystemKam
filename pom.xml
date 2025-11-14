@@ -98,6 +98,16 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <excludes>
+                        <!-- Excluir toda la capa visual -->
+                        <exclude>**/view/**</exclude>
+
+                        <!-- Excluir las clases Main (si existen) -->
+                        <exclude>**/Main*</exclude>
+                    </excludes>
+                </configuration>
+
 
 
             </plugin>
@@ -111,5 +121,6 @@
 
         </plugins>
     </build>
+
 
 </project>

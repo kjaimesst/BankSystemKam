@@ -1,9 +1,10 @@
 package org.banksystem.model;
 
 /**
- * accountFactory - factoryMethod
- * fábrica simple para crear cuentas por tipo
+ * accountFactory + factoryMethod
+ * fabrica simple para crear cuentas por tipo
  */
+
 public class AccountFactory {
     public static Account createAccount(String type) {
         if (type == null) return new SavingsAccount();

@@ -1,7 +1,7 @@
 package org.banksystem.controller;
 
 /**
- * patron command para encapsular acciones
+ *  patron command para encapsular acciones
  */
 
 public interface Command {

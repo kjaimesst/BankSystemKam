@@ -5,8 +5,9 @@ import org.banksystem.model.Account;
 import java.math.BigDecimal;
 
 /**
- * patron proxy: controla el acceso a las operaciones del banco segun el rol
+ * patron proxy controla el acceso a las operaciones del banco segun el rol
  */
+
 public class BankProxy {
     private final BankFacade facade;
     private final boolean isAdmin;

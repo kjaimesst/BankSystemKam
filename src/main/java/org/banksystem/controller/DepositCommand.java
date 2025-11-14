@@ -4,7 +4,7 @@ import org.banksystem.model.Account;
 import java.math.BigDecimal;
 
 /**
- * command: encapsula una operación de deposito
+ * command encapsula una operación de deposito
  */
 
 public class DepositCommand implements Command {

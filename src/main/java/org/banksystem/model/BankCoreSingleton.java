@@ -62,7 +62,8 @@ public class BankCoreSingleton {
         }
     }
 
-    // para tests: limpiar estado entre pruebas
+    //  limpiar estado entre pruebas
+
     public synchronized void clearForTests() {
         customers.clear();
     }

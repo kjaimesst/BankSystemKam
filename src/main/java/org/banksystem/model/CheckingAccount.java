@@ -1,7 +1,7 @@
 package org.banksystem.model;
 
 /**
- * checkingAccount - concrete product of fctoryMethod)
+ * checkingAccount + concrete product of fctorymethod
  */
 public class CheckingAccount extends Account {
     @Override

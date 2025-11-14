@@ -4,7 +4,7 @@ import org.banksystem.model.Account;
 import java.math.BigDecimal;
 
 /**
- * patron chain of responsibility: valida que la transacción no supere un monto máximo permitido
+ * patron chain of responsibility valida que la transacción no supere un monto máximo permitido
  */
 public class LimitValidator extends TransactionHandler {
     private static final BigDecimal MAX_LIMIT = new BigDecimal("10000000"); // 10 millones

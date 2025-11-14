@@ -1,6 +1,7 @@
 package org.banksystem.model;
 
 public class Customer {
+
     private final String name;
     private final String email;
     private final Account account;
@@ -10,7 +11,7 @@ public class Customer {
         this.name = name;
         this.email = email;
         this.account = account;
-        this.account.addObserver(new ConsoleNotification(name)); // suscribir notificaciones
+        this.account.addObserver(new ConsoleNotification(name)); //suscribir notificaciones
         this.loan = new Loan(this);
     }
 

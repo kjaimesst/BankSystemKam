@@ -7,7 +7,9 @@ import java.math.BigDecimal;
  *  patron facade: simplifica el uso del sistema bancario, ofreciendo métodos directos
  * para las operaciones más comunes
  */
+
 public class BankFacade {
+
     private final BankCoreSingleton core = BankCoreSingleton.getInstance();
     private final TransactionManagerInvoker invoker = new TransactionManagerInvoker();
 
@@ -16,6 +18,7 @@ public class BankFacade {
     }
 
     public void depositMoney(Account account, BigDecimal amount) {
+
         TransactionHandler limitValidator = new LimitValidator();
         TransactionHandler balanceValidator = new BalanceValidator();
         limitValidator.setNextHandler(balanceValidator);
@@ -27,6 +30,7 @@ public class BankFacade {
     }
 
     public void withdrawMoney(Account account, BigDecimal amount) {
+
         TransactionHandler limitValidator = new LimitValidator();
         TransactionHandler balanceValidator = new BalanceValidator();
         limitValidator.setNextHandler(balanceValidator);
@@ -38,6 +42,7 @@ public class BankFacade {
     }
 
     public void transferMoney(Account from, Account to, BigDecimal amount) {
+
         TransactionHandler limitValidator = new LimitValidator();
         TransactionHandler balanceValidator = new BalanceValidator();
         limitValidator.setNextHandler(balanceValidator);

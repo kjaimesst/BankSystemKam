@@ -8,6 +8,7 @@ import java.util.Locale;
  *  loan: rpresenta un préstamo dentro del sistema bancario
  * se comunica con la cuenta del cliente y envía notificaciones usando el patrón observer
  */
+
 public class Loan {
     private final Customer owner;
     private BigDecimal outstanding; // deuda total pendiente
@@ -44,9 +45,9 @@ public class Loan {
         return true;
     }
 
-    /**
-     * permite realizar pagos parciales o totales al prestamo
-     */
+
+    // permite realizar pagos parciales o totales al prestamo
+
     public boolean makePayment(BigDecimal payment) {
         if (payment == null || payment.compareTo(BigDecimal.ZERO) <= 0) {
             owner.getAccount().notifyAllObservers("Pago inválido: el monto debe ser mayor que 0");
