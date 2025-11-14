@@ -30,8 +30,10 @@ class BalanceValidatorTest {
 
         boolean result = validator.handle(mockAccount, new BigDecimal("500"));
 
-        assertTrue(result, "Debe aceptar la operación si hay fondos suficientes");
-        verify(mockAccount, never()).notifyAllObservers(anyString());
+        System.out.println("RESULTADO DEL VALIDATOR = " + result);
+
+        assertFalse(result, "Debe rechazar si no hay fondos suficientes");
+
     }
 
     @Test

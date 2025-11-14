@@ -2,7 +2,7 @@
 <project version="4">
   <component name="SonarLintProjectSettings">
     <option name="bindingEnabled" value="true" />
-    <option name="projectKey" value="BankSystem" />
+    <option name="projectKey" value="sqp_1705696b7027e42b0122ce92ec4a03121911679e" />
     <option name="serverId" value="http://localhost:9000" />
   </component>
 </project>

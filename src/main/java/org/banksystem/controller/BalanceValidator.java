@@ -10,11 +10,17 @@ public class BalanceValidator extends TransactionHandler {
 
     @Override
     public boolean handle(Account account, BigDecimal amount) {
-        if (account.getBalance().compareTo(amount) < 0) {
-            account.notifyAllObservers("Operación rechazada: fondos insuficientes.");
-            return false;
+        // Si el monto es negativo → es un retiro/transferencia
+        if (amount.compareTo(BigDecimal.ZERO) < 0) {
+            BigDecimal absAmount = amount.abs();
+            if (account.getBalance().compareTo(absAmount) < 0) {
+                account.notifyAllObservers("Operación rechazada: fondos insuficientes.");
+                return false;
+            }
         }
+
         if (nextHandler != null) return nextHandler.handle(account, amount);
         return true;
     }
+
 }

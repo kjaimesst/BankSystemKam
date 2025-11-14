@@ -8,6 +8,9 @@
     <groupId>org.banksystem</groupId>
     <artifactId>BankSystem</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <name>Kam Bank System</name>
 
     <properties>
         <maven.compiler.source>22</maven.compiler.source>
@@ -17,20 +20,27 @@
         <!-- Configuración de SonarQube -->
         <sonar.projectKey>BankSystem</sonar.projectKey>
         <sonar.host.url>http://localhost:9000</sonar.host.url>
-        <sonar.login>TU_TOKEN_AQUI</sonar.login>
+        <sonar.login>sqp_8a7052d9533b0d5bf0916216e7d4098e399aa01b</sonar.login>
+
+        <junit.version>5.11.2</junit.version>
+        <mockito.version>5.14.2</mockito.version>
+        <maven.surefire.version>3.5.2</maven.surefire.version>
+        <maven.failsafe.version>3.5.2</maven.failsafe.version>
     </properties>
 
     <dependencies>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.34</version>
+            <scope>provided</scope>
+        </dependency>
+
         <!-- Dependencia para JUnit 5 -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>5.10.2</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
             <version>5.10.2</version>
             <scope>test</scope>
         </dependency>
@@ -42,11 +52,26 @@
             <version>5.11.0</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- Mockito JUnit Jupiter integration -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>${mockito.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- AssertJ for fluent assertions -->
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>3.26.3</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
         <plugins>
-
             <!-- JUnit 5 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -73,6 +98,8 @@
                         </goals>
                     </execution>
                 </executions>
+
+
             </plugin>
 
             <!-- SonarQube -->
