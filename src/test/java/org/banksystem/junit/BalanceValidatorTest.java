@@ -25,23 +25,23 @@ class BalanceValidatorTest {
 
     @Test
     void testHandle_WhenBalanceIsSufficient_ShouldReturnTrue() {
-        // balance = 1000, amount = 500 → válido
+        // balance = 1000, amount = -500 → válido (retiro)
         when(mockAccount.getBalance()).thenReturn(new BigDecimal("1000"));
 
-        boolean result = validator.handle(mockAccount, new BigDecimal("500"));
+        boolean result = validator.handle(mockAccount, new BigDecimal("-500"));
 
         System.out.println("RESULTADO DEL VALIDATOR = " + result);
 
-        assertFalse(result, "Debe rechazar si no hay fondos suficientes");
+        assertTrue(result, "Debe permitir si hay fondos suficientes");
 
     }
 
     @Test
     void testHandle_WhenBalanceIsInsufficient_ShouldReturnFalse() {
-        // balance = 200, amount = 500 → insuficiente
+        // balance = 200, amount = -500 → insuficiente (retiro)
         when(mockAccount.getBalance()).thenReturn(new BigDecimal("200"));
 
-        boolean result = validator.handle(mockAccount, new BigDecimal("500"));
+        boolean result = validator.handle(mockAccount, new BigDecimal("-500"));
 
         assertFalse(result, "Debe rechazar si no hay fondos suficientes");
         verify(mockAccount).notifyAllObservers(contains("fondos insuficientes"));
@@ -49,17 +49,17 @@ class BalanceValidatorTest {
 
     @Test
     void testHandle_WhenNextHandlerExists_ShouldDelegate() {
-        // balance = 1000 --> suficiente
+        // balance = 1000, amount = -500 --> suficiente, debe delegar
         when(mockAccount.getBalance()).thenReturn(new BigDecimal("1000"));
 
         // Simulamos el siguiente validador
         TransactionHandler next = Mockito.mock(TransactionHandler.class);
         validator.setNextHandler(next);
-        when(next.handle(mockAccount, new BigDecimal("1000"))).thenReturn(true);
+        when(next.handle(mockAccount, new BigDecimal("-500"))).thenReturn(true);
 
-        boolean result = validator.handle(mockAccount, new BigDecimal("1000"));
+        boolean result = validator.handle(mockAccount, new BigDecimal("-500"));
 
         assertTrue(result, "Debe delegar al siguiente validador");
-        verify(next).handle(mockAccount, new BigDecimal("1000"));
+        verify(next).handle(mockAccount, new BigDecimal("-500"));
     }
 }
